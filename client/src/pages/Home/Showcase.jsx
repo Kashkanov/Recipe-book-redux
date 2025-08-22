@@ -3,16 +3,27 @@ import {motion} from "motion/react";
 import {dummyRecipes} from "../../data/dummyRecipes.js";
 
 const Showcase = () => {
+    const api_url = "http://localhost:5050/";
 
-    const [recipes, setRecipes] = useState(dummyRecipes);
-    const [numRecipes, setNumRecipes] = useState(0);
     const [sampRecipes, setSampRecipes] = useState([]);
     const [newestRecipe, setNewestRecipe] = useState({});
 
+
+    async function getThreeLatestRecipes() {
+        const response = await fetch(api_url + "recipes/threeLatest/");
+        const data = await response.json();
+        setSampRecipes(data);
+    }
+
+    async function getLatestRecipe() {
+        const response = await fetch(api_url + "recipes/latest/");
+        const data = await response.json();
+        setNewestRecipe(data);
+    }
+
     useEffect(() => {
-        setNumRecipes(recipes.length);
-        setNewestRecipe(recipes[0]);
-        setSampRecipes(recipes.slice(1, 4));
+        getThreeLatestRecipes();
+        getLatestRecipe()
     }, []);
 
     return (
@@ -67,7 +78,7 @@ const Showcase = () => {
                                     sampRecipes.map((recipe) => {
                                         return (
                                             <div
-                                                key={recipe.id}
+                                                key={recipe._id}
                                                 className="w-1/2 h-1/2 p-3"
                                             >
                                                 <motion.div
