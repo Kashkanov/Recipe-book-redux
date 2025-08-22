@@ -11,7 +11,7 @@ const Navbar = () => {
     ];
 
     return (
-        <nav className="fixed flex justify-end items-center h-15 w-dvw bg-neutral-800 py-auto px-5 z-50">
+        <nav className="fixed flex justify-end items-center h-15 w-dvw bg-gray-300 py-auto px-5 z-50">
             <ul className="flex gap-5">
                 {
                     links.map((item) => {

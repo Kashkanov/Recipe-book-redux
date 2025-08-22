@@ -1,10 +1,13 @@
+
 export const dummyRecipes = [
+
     {
         "id": 1,
         "title": "Menudo",
-        "picture": "placeholder",
+        "picture": "./public/recipes/menudo.jpg",
         "prep_time": 15,
         "cook_time": 45,
+        "description": "A hearty Filipino stew made with pork, liver, potatoes, and carrots simmered in a savory tomato sauce.",
         "ingredients": [
             "2 lbs. pork",
             "1/4 lb. pig liver",
@@ -31,14 +34,16 @@ export const dummyRecipes = [
             "Add-in the liver and hot dogs. Cook for 5 minutes.",
             "Put-in potatoes, carrots, sugar, salt, and pepper. Stir and cook for 8 to 12 minutes.",
             "Serve. Share and enjoy!"
-        ]
+        ],
+        "datetime_added": "2023-10-06T12:00:00Z"
     },
     {
         "id": 2,
         "title": "Chicken Adobo",
-        "picture": "placeholder",
+        "picture": "./public/recipes/adobo.jpg",
         "prep_time": 10,
         "cook_time": 40,
+        "description": "A classic Filipino dish of meat braised in soy sauce, vinegar, garlic, and spices, known for its rich, tangy flavor.",
         "ingredients": [
             "2 lbs. chicken cut into serving pieces",
             "1/2 cup soy sauce",
@@ -59,14 +64,16 @@ export const dummyRecipes = [
             "Continue to simmer until chicken is fully cooked and sauce has thickened.",
             "Adjust salt to taste.",
             "Serve with rice. Enjoy!"
-        ]
+        ],
+        "datetime_added": "2023-10-06T12:00:00Z"
     },
     {
         "id": 3,
         "title": "Beef Kaldereta",
-        "picture": "placeholder",
+        "picture": "./public/recipes/kaldereta.jpg",
         "prep_time": 20,
         "cook_time": 75,
+        "description": "A flavorful tomato-based meat stew, usually beef or goat, cooked with liver spread, potatoes, and bell peppers.",
         "ingredients": [
             "2 lbs. beef chuck cubed",
             "1 cup tomato sauce",
@@ -91,14 +98,16 @@ export const dummyRecipes = [
             "Add bell peppers and cook for 5 more minutes.",
             "Season with salt and pepper to taste.",
             "Serve hot with rice."
-        ]
+        ],
+        "datetime_added": "2023-10-06T12:00:00Z"
     },
     {
         "id": 4,
         "title": "Sinigang na Baboy",
-        "picture": "placeholder",
+        "picture": "./public/recipes/sinigang-baboy.jpg",
         "prep_time": 15,
         "cook_time": 60,
+        "description": "A Filipino soup made with pork belly, tomatoes, and a rich tomato-based sauce. It's a popular main dish in the Philippines and is often served with steamed rice.",
         "ingredients": [
             "2 lbs. pork belly or ribs",
             "1 large onion quartered",
@@ -120,7 +129,7 @@ export const dummyRecipes = [
             "Add green chili and kangkong last. Simmer for another 2–3 minutes.",
             "Season with salt or fish sauce as needed.",
             "Serve hot with steamed rice."
-        ]
+        ],
+        "datetime_added": "2023-10-06T12:00:00Z"
     }
-
 ]
