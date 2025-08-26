@@ -8,6 +8,16 @@ const RecipePage = () => {
     const api_url = "http://localhost:5050/";
     const [recipe, setRecipe] = useState({});
     const params = useParams();
+    const [checkedItems, setCheckedItems] = useState([]);
+    const [servings, setServings] = useState(1);
+
+    const toggleCheck = (index) => {
+        if (checkedItems.includes(index)) {
+            setCheckedItems(checkedItems.filter((item) => item !== index));
+        } else {
+            setCheckedItems([...checkedItems, index]);
+        }
+    };
 
     async function getRecipe() {
         const id = params.id?.toString() || undefined;
@@ -52,27 +62,86 @@ const RecipePage = () => {
                             </div>
                             {/*Ingredients section*/}
                             <div className="flex-col text-start bg-yellow-100 rounded-lg text-black p-5 ">
-                                <h1 className="text-5xl font-bold pb-5">Ingredients</h1>
-
+                                <div className="flex justify-between">
+                                    <h1 className="text-5xl font-bold pb-5">Ingredients</h1>
+                                    {/* Servings adjust */}
+                                    <div className="relative flex items-center h-10 w-40 font-bold">
+                                        <button
+                                            onClick={() => setServings(servings - 1)}
+                                            disabled={servings === 1}
+                                            className="bg-white h-full w-1/6 rounded-tl-xl rounded-bl-xl border-3 border-black text-center"
+                                        >
+                                            -
+                                        </button>
+                                        <input
+                                            type="number"
+                                            className="flex h-full w-4/6 text-center bg-white border-b-3 border-t-3"
+                                            value={servings}
+                                            onChange={(e) => setServings(e.target.value)}
+                                        />
+                                        <button
+                                            onClick={() => setServings(servings + 1)}
+                                            className="bg-white h-full w-1/6 rounded-tr-xl rounded-br-xl border-3 border-black text-center"
+                                        >
+                                            +
+                                        </button>
+                                    </div>
+                                </div>
                                 {recipe.ingredients &&
                                     (
                                         <div className="w-1/2">
                                             {/*TODO: on check, cross out ingredient*/}
-                                            {recipe.ingredients.map((ingredient, index) => (
-                                                <div
-                                                    key={index}
-                                                    className="relative flex text-2xl items-center py-2"
-                                                >
-                                                    <input type="checkbox" id={index} value={index}/>
-                                                    <label
-                                                        htmlFor={index}
-                                                        className="ml-5"
+                                            {recipe.ingredients.map((ingredient, index) => {
+                                                const isChecked = checkedItems.includes(index);
+                                                return (
+                                                    <div
+                                                        key={index}
+                                                        className="relative flex text-2xl items-center py-2"
                                                     >
-                                                        {ingredient.quantity} {ingredient.unit} {ingredient.name}
-                                                    </label>
-                                                    <hr className="absolute w-full left-7 border-2"/>
-                                                </div>
-                                            ))}
+                                                        <input
+                                                            type="checkbox"
+                                                            id={`ingredient-${index}`}
+                                                            value={index}
+                                                            checked={isChecked}
+                                                            onChange={() => toggleCheck(index)}
+                                                        />
+                                                        <div className="relative">
+                                                            <label
+                                                                htmlFor={`ingredient-${index}`}
+                                                                className="ml-5"
+                                                            >
+                                                                {ingredient.quantity * servings} {ingredient.unit} {ingredient.name}
+                                                                <motion.span
+                                                                    initial={false}
+                                                                    animate={{width: isChecked ? "100%" : "0%"}}
+                                                                    transition={{duration: 0.3}}
+                                                                    className="absolute left-5 top-1/2 h-[2px] bg-black"
+                                                                />
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })}
+                                        </div>
+                                    )
+                                }
+                            </div>
+                            {/*Instructions section*/}
+                            <div className="flex-col text-start bg-yellow-100 rounded-lg text-black p-5 ">
+                                <h1 className="text-5xl font-bold pb-5">Instructions</h1>
+                                {recipe.steps &&
+                                    (
+                                        <div className="flex flex-col w-full gap-y-10">
+                                            <ol className="list-decimal list-inside">
+                                                {recipe.steps.map((step, index) => {
+                                                    return (
+                                                        <li key={index}
+                                                            className="relative text-2xl items-center py-2 list-item mb-10w">
+                                                            {step}
+                                                        </li>
+                                                    )
+                                                })}
+                                            </ol>
                                         </div>
                                     )
                                 }

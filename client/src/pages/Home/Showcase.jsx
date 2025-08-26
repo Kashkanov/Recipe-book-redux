@@ -45,7 +45,7 @@ const Showcase = () => {
                                 {/*Overlay pull-down on hover*/}
                                 <motion.div
                                     className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-[#58559A] opacity-80"
-                                    initial={{y: -600}}
+                                    initial={{y: -1000}}
                                     variants={{
                                         hover: {
                                             y: 0,
@@ -93,7 +93,7 @@ const Showcase = () => {
                                                     />
                                                     <motion.div
                                                         className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-[#58559A] opacity-80"
-                                                        initial={{y: -600}}
+                                                        initial={{y: -800}}
                                                         variants={{
                                                             hover: {
                                                                 y: 0,
