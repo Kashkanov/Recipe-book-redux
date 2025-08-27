@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {motion} from "motion/react";
-import {dummyRecipes} from "../../data/dummyRecipes.js";
+import {Link} from "react-router-dom";
 
 const Showcase = () => {
     const api_url = "http://localhost:5050/";
@@ -32,45 +32,49 @@ const Showcase = () => {
                 (
                     <div className="relative w-5/6 h-5/6 flex">
                         <div className="w-1/2 h-full p-3">
-                            <motion.div
-                                className="relative w-full h-full bg-gray-700 rounded-xl shadow-lg overflow-hidden cursor-pointer"
-                                initial={{scale: 1}}
-                                whileHover="hover"
-                            >
-                                <img
-                                    src={newestRecipe.picture}
-                                    alt={newestRecipe.title}
-                                    className="w-full h-full object-cover"
-                                />
-                                {/*Overlay pull-down on hover*/}
+                            <Link to={`/recipe/${newestRecipe._id}`}>
                                 <motion.div
-                                    className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-[#58559A] opacity-80"
-                                    initial={{y: -1000}}
-                                    variants={{
-                                        hover: {
-                                            y: 0,
-                                            transition: {type: "tween", duration: 0.5, ease: "easeOut"}
-                                        },
-                                    }}
+                                    className="relative w-full h-full bg-gray-700 rounded-xl shadow-lg overflow-hidden cursor-pointer"
+                                    initial={{scale: 1}}
+                                    whileHover="hover"
                                 >
-                                    <div className="flex-col justify-center w-full h-44">
-                                        <h1 className="text-5xl font-bold">{newestRecipe.title}</h1>
-                                        <p className="pt-5 mx-5">{newestRecipe.description}</p>
-                                        <div className="flex justify-center items-center w-full mt-5">
-                                            <div className="flex-col w-1/2 justify-center">
-                                                <p className="text-5xl">🔪</p>
-                                                <h2 className="text-3xl"><strong>{newestRecipe.prep_time}</strong> mins</h2>
-                                                <p>Prep Time</p>
-                                            </div>
-                                            <div className="flex-col w-1/2 justify-center">
-                                                <p className="text-5xl">🍳</p>
-                                                <h2 className="text-3xl"><strong>{newestRecipe.cook_time}</strong> mins</h2>
-                                                <p>Cook Time</p>
+                                    <img
+                                        src={newestRecipe.picture}
+                                        alt={newestRecipe.title}
+                                        className="w-full h-full object-cover"
+                                    />
+                                    {/*Overlay pull-down on hover*/}
+                                    <motion.div
+                                        className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-[#588157] opacity-80"
+                                        initial={{y: -1000}}
+                                        variants={{
+                                            hover: {
+                                                y: 0,
+                                                transition: {type: "tween", duration: 0.5, ease: "easeOut"}
+                                            },
+                                        }}
+                                    >
+                                        <div className="flex-col justify-center w-full h-44">
+                                            <h1 className="text-5xl font-bold">{newestRecipe.title}</h1>
+                                            <p className="pt-5 mx-5">{newestRecipe.description}</p>
+                                            <div className="flex justify-center items-center w-full mt-5">
+                                                <div className="flex-col w-1/2 justify-center">
+                                                    <p className="text-5xl">🔪</p>
+                                                    <h2 className="text-3xl">
+                                                        <strong>{newestRecipe.prep_time}</strong> mins</h2>
+                                                    <p>Prep Time</p>
+                                                </div>
+                                                <div className="flex-col w-1/2 justify-center">
+                                                    <p className="text-5xl">🍳</p>
+                                                    <h2 className="text-3xl">
+                                                        <strong>{newestRecipe.cook_time}</strong> mins</h2>
+                                                    <p>Cook Time</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </motion.div>
                                 </motion.div>
-                            </motion.div>
+                            </Link>
                         </div>
                         <div className="w-1/2 h-full flex gap-3">
                             <div className="relative w-full h-full flex flex-wrap">
@@ -81,43 +85,54 @@ const Showcase = () => {
                                                 key={recipe._id}
                                                 className="w-1/2 h-1/2 p-3"
                                             >
-                                                <motion.div
-                                                    className="relative w-full h-full bg-gray-700 rounded-xl shadow-lg overflow-hidden cursor-pointer"
-                                                    initial={{scale: 1}}
-                                                    whileHover="hover"
-                                                >
-                                                    <img
-                                                        src={recipe.picture}
-                                                        alt={recipe.title}
-                                                        className="w-full h-full object-cover"
-                                                    />
+                                                <Link to={`/recipe/${recipe._id}`}>
                                                     <motion.div
-                                                        className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-[#58559A] opacity-80"
-                                                        initial={{y: -800}}
-                                                        variants={{
-                                                            hover: {
-                                                                y: 0,
-                                                                transition: {type: "tween", duration: 0.5, ease: "easeOut"}
-                                                            },
-                                                        }}
+                                                        className="relative w-full h-full bg-gray-700 rounded-xl shadow-lg overflow-hidden cursor-pointer"
+                                                        initial={{scale: 1}}
+                                                        whileHover="hover"
                                                     >
-                                                        <div className="flex-col justify-center w-full h-44">
-                                                            <h2 className="text-2xl font-bold">{recipe.title}</h2>
-                                                            <div className="flex justify-center items-center w-full mt-5">
-                                                                <div className="flex-col w-1/2 justify-center">
-                                                                    <p className="text-xl">🔪</p>
-                                                                    <h2 className="text-lg"><strong>{recipe.prep_time}</strong> mins</h2>
-                                                                    <p>Prep Time</p>
-                                                                </div>
-                                                                <div className="flex-col w-1/2 justify-center">
-                                                                    <p className="text-xl">🍳</p>
-                                                                    <h2 className="text-lg"><strong>{recipe.cook_time}</strong> mins</h2>
-                                                                    <p>Cook Time</p>
+                                                        <img
+                                                            src={recipe.picture}
+                                                            alt={recipe.title}
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                        <motion.div
+                                                            className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-[#588157] opacity-80"
+                                                            initial={{y: -800}}
+                                                            variants={{
+                                                                hover: {
+                                                                    y: 0,
+                                                                    transition: {
+                                                                        type: "tween",
+                                                                        duration: 0.5,
+                                                                        ease: "easeOut"
+                                                                    }
+                                                                },
+                                                            }}
+                                                        >
+                                                            <div className="flex-col justify-center w-full h-44">
+                                                                <h2 className="text-2xl font-bold">{recipe.title}</h2>
+                                                                <div
+                                                                    className="flex justify-center items-center w-full mt-5">
+                                                                    <div className="flex-col w-1/2 justify-center">
+                                                                        <p className="text-xl">🔪</p>
+                                                                        <h2 className="text-lg">
+                                                                            <strong>{recipe.prep_time}</strong> mins
+                                                                        </h2>
+                                                                        <p>Prep Time</p>
+                                                                    </div>
+                                                                    <div className="flex-col w-1/2 justify-center">
+                                                                        <p className="text-xl">🍳</p>
+                                                                        <h2 className="text-lg">
+                                                                            <strong>{recipe.cook_time}</strong> mins
+                                                                        </h2>
+                                                                        <p>Cook Time</p>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </motion.div>
                                                     </motion.div>
-                                                </motion.div>
+                                                </Link>
                                             </div>
                                         )
                                     })
@@ -130,7 +145,7 @@ const Showcase = () => {
                                             backgroundColor: "#ffffff",
                                             color: "black",
                                         }}
-                                        transition={{ duration: 2, ease: "easeOut"}}
+                                        transition={{duration: 2, ease: "easeOut"}}
                                     >
                                         <h2 className="text-lg">See more recipes</h2>
                                     </motion.div>
