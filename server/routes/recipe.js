@@ -1,5 +1,5 @@
 import express from 'express';
-import db from "../db/connection.js"
+import db from "../db/db.js"
 import { ObjectId } from "mongodb";
 
 const router = express.Router();
@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
     res.send(results).status(200);
 })
 
-//get latest recipes
+//get latest recipe
 router.get("/latest/", async (req, res) => {
     let collection = await db.collection("recipes");
     let result = await collection.find().sort({ datetime_added: -1 }).limit(3).toArray();

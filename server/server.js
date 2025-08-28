@@ -1,13 +1,16 @@
-import express from "express";
-import cors from "cors";
-import recipes from "./routes/recipe.js";
+const express = require("express")
+const cors = require("cors")
+const productController = require("./controllers/recipeController")
+const db = require("./db/db.js")
 
 const PORT = process.env.PORT || 5050;
 const app = express();
 
+db()
+
 app.use(cors());
 app.use(express.json());
-app.use("/recipes", recipes);
+app.use("/recipes", productController);
 
 // start the Express server
 app.listen(PORT, () => {
