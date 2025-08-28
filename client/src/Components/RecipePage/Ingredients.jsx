@@ -59,7 +59,7 @@ const Ingredients = ({ingredients}) => {
                             return (
                                 <div
                                     key={index}
-                                    className="relative flex text-2xl items-center py-2"
+                                    className="relative flex text-2xl items-center p-2"
                                 >
                                     <input
                                         type="checkbox"

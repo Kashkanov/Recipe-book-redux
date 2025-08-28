@@ -1,54 +1,33 @@
-import {dummyRecipes} from "../../data/dummyRecipes.js";
-import DataTable from 'datatables.net-react';
-import DT from 'datatables.net-dt';
+import RecipeTable from "../../Components/Recipes/RecipeTable.jsx";
+import {useEffect, useState} from "react";
 
 const Recipes = () => {
-    DataTable.use(DT);
-    const columns = [
-        {title: "Picture", field: "picture", formatter: "image"},
-        {title: "Title", field: "title"},
-        {title: "Prep Time", field: "prepTime"},
-        {title: "Cook Time", field: "cookTime"},
-    ];
+
+    const api_url = "http://localhost:5050/";
+
+    const [recipes, setRecipes] = useState([]);
+
+    async function getAllRecipes() {
+        const response = await fetch(api_url + "recipes/");
+        const data = await response.json();
+        setRecipes(data);
+    }
+
+    useEffect(() => {
+        getAllRecipes();
+    }, []);
+
     return (
         <div
-            className="relative flex-col justify-center items-center w-full h-full bg-gradient-to-bl from-gray-900 to-fuchsia-950 pt-20">
+            className="relative flex-col justify-center items-center w-full h-full bg-gradient-to-bl bg-[#a3b18a]">
             <h1>Recipes</h1>
-            <div className="relative h-dvh w-dvw flex justify-center items-center">
+            <div className="relative h-dvh w-dvw flex justify-center mt-10">
                 <div className="container">
-                    <DataTable
-                        className="display w-10"
-                        columns={columns}
-                        layout="fitColumns"
-                        striped
-                    >
-                        <thead>
-                        <tr>
-                            <th>Picture</th>
-                            <th>Title</th>
-                            <th>Prep Time</th>
-                            <th>Cook Time</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {dummyRecipes.map((recipe) => {
-                            return (
-                                <tr>
-                                    <td className="flex items-center justify-center">
-                                        <img
-                                            src={recipe.picture}
-                                            alt={recipe.title}
-                                            className="h-20 w-20 m-1"
-                                        />
-                                    </td>
-                                    <td>{recipe.title}</td>
-                                    <td>{recipe.prep_time}</td>
-                                    <td>{recipe.cook_time}</td>
-                                </tr>
-                            )
-                        })}
-                        </tbody>
-                    </DataTable>
+                    {recipes && (
+                        <div className="relative w-full flex justify-center">
+                            <RecipeTable recipes={recipes}/>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
