@@ -7,11 +7,14 @@ const Navbar = () => {
             name: "Home",
             link: "/"
         },
-
+        {
+            name: "Explore",
+            link: "/Recipes?page=1"
+        }
     ];
 
     return (
-        <nav className="fixed flex justify-end items-center h-15 w-dvw bg-[#344E41] py-auto px-5 z-30">
+        <nav className="fixed flex justify-start items-center h-15 w-dvw bg-[#344E41] py-auto px-10 z-30">
             <ul className="flex gap-5">
                 {
                     links.map((item) => {

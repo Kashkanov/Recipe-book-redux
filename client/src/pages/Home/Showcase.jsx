@@ -32,7 +32,7 @@ const Showcase = () => {
                 (
                     <div className="relative w-5/6 h-5/6 flex">
                         <div className="w-1/2 h-full p-3">
-                            <Link to={`/recipe/${newestRecipe._id}`}>
+                            <Link to={`/Recipes/${newestRecipe._id}`}>
                                 <motion.div
                                     className="relative w-full h-full bg-gray-700 rounded-xl shadow-lg overflow-hidden cursor-pointer"
                                     initial={{scale: 1}}

@@ -6,8 +6,19 @@ const router = express.Router();
 // Get all recipes
 router.get("/", async (req, res) => {
     try{
-        const recipes = await Recipe.find().limit(6);
-        res.json(recipes);
+        const { page=1 } = req.query;
+        const currPage = parseInt(page);
+        // get recipes by page
+        const recipes = await Recipe
+            .find()
+            .skip((currPage - 1) * 6)
+            .limit(6)
+
+        const totalRecipes = await Recipe.countDocuments();
+        res.json({
+            recipes: recipes,
+            total: totalRecipes
+        });
     } catch (err) {
         res.status(500).json({message: err.message});
     }
