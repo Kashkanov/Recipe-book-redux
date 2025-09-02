@@ -26,11 +26,11 @@ const AddRecipe = () => {
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
-            setPic(file);
+            setPicture(file);
         }
         thumbnailRef.current.src = URL.createObjectURL(file);
         picNameRef.current.value = file.name;
-        setPicture(file.name);
+        console.log(file.name)
     };
 
     const handleFileRemove = () => {
@@ -38,24 +38,39 @@ const AddRecipe = () => {
         picNameRef.current.value = "";
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         // send to api
-        postRecipe();
+        const picFormData = new FormData();
+        let picPath = "";
+
+        if(picture){
+            picFormData.append("picture", picture);
+            const response = await fetch(api_url + "recipes/uploadImage", {
+                method: "POST",
+                body: picFormData
+            })
+
+            const data = await response.json();
+            picPath = data.url;
+            console.log(data);
+        }
+        postRecipe(picPath);
     }
 
-    async function postRecipe() {
+    // TODO: clean this up and remove unused variables related to picture
+    async function postRecipe(picPath) {
         const response = await fetch(api_url + "recipes/", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "multipart/form-data",
             },
             body: JSON.stringify({
                 title: title,
                 prep_time: prepTime,
                 cook_time: cookTime,
                 description: description,
-                picture: picture,
+                picture: picPath,
                 ingredients: ingredients,
                 steps: steps,
                 uploader: "admin",

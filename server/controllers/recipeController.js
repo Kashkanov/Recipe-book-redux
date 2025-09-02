@@ -1,8 +1,19 @@
 const express = require("express");
+const multer = require("multer");
 const Recipe = require("../models/Recipe");
 
 const router = express.Router();
-const client_url = "http://localhost:5173/";
+const api_url = "http://localhost:5050/";
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "./public/uploads/");
+    },
+    filename: function (req, file, cb) {
+        cb(null, new Date().toISOString().replace(/[:.]/g, '') + "_" + file.originalname);
+    },
+});
+
+const upload = multer({storage: storage});
 
 // Get all recipes
 router.get("/", async (req, res) => {
@@ -65,5 +76,13 @@ router.post("/", async (req, res) => {
         res.status(500).json({message: err.message});
     }
 });
+
+router.post("/uploadImage", upload.single("picture"), async (req, res) => {
+    try{
+        res.json({url: api_url + "uploads/" + req.file.filename});
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+})
 
 module.exports = router;
