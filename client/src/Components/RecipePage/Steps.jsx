@@ -13,7 +13,7 @@ const Steps = ({steps}) => {
                             {steps.map((step, index) => {
                                 return (
                                     <motion.li key={index}
-                                               className="relative text-2xl items-center py-2 list-item py-5 px-2"
+                                               className="relative text-2xl items-center list-item py-5 px-2"
                                                initial={{scale: 1}}
                                                whileHover={{
                                                    scale: 1.1,

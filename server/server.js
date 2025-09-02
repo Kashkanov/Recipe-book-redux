@@ -8,6 +8,8 @@ const app = express();
 
 db()
 
+app.use(express.static("public"));
+
 app.use(cors());
 app.use(express.json());
 app.use("/recipes", productController);

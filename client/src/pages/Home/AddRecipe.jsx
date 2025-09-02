@@ -1,13 +1,27 @@
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {faTrash} from "@fortawesome/free-solid-svg-icons/faTrash";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import AddIngredients from "../../Components/AddRecipe/AddIngredients.jsx";
+import AddSteps from "../../Components/AddRecipe/AddSteps.jsx";
+import {useNavigate} from "react-router-dom";
 
 const AddRecipe = () => {
 
+    const navigate = useNavigate();
+    const api_url = "http://localhost:5050/";
     const [pic, setPic] = useState(null);
+    const [title, setTitle] = useState("");
+    const [prepTime, setPrepTime] = useState(0);
+    const [cookTime, setCookTime] = useState(0);
+    const [description, setDescription] = useState("");
+    const [picture, setPicture] = useState("");
     const picRef = useRef(null);
     const picNameRef = useRef(null);
     const thumbnailRef = useRef(null);
+    const [ingredients, setIngredients] = useState([]);
+    const [ingredientCount, setIngredientCount] = useState(0);
+    const [steps, setSteps] = useState([]);
+    const [stepCount, setStepCount] = useState(0);
 
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
@@ -16,6 +30,7 @@ const AddRecipe = () => {
         }
         thumbnailRef.current.src = URL.createObjectURL(file);
         picNameRef.current.value = file.name;
+        setPicture(file.name);
     };
 
     const handleFileRemove = () => {
@@ -23,14 +38,47 @@ const AddRecipe = () => {
         picNameRef.current.value = "";
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // send to api
+        postRecipe();
+    }
+
+    async function postRecipe() {
+        const response = await fetch(api_url + "recipes/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                title: title,
+                prep_time: prepTime,
+                cook_time: cookTime,
+                description: description,
+                picture: picture,
+                ingredients: ingredients,
+                steps: steps,
+                uploader: "admin",
+            }),
+
+        });
+
+        if (response.ok) {
+            const newRecipe = await response.json();
+            navigate(`/recipes/${newRecipe._id}`);
+        }
+    }
+
+    useEffect(() => {
+        console.log(steps)
+    }, [steps]);
+
     return (
         <div
             className="relative flex flex-col justify-start items-center w-screen h-dvh bg-gradient-to-bl bg-[#a3b18a] overflow-x-hidden">
-
-            <div
-                className="relative w-5/6 h-[33rem] flex flex-col items-start mt-20 text-[#344e41]">
-                <h1>Add a Recipe</h1>
-                <form className="flex flex-col w-full h-full pt-5 text-xl gap-y-3">
+            <div className="relative w-4/6 h-[33rem] flex flex-col items-start m-20 text-[#344e41]">
+                <h1><strong>Create Recipe</strong></h1>
+                <form onSubmit={handleSubmit} className="flex flex-col w-full h-[30rem] pt-5 text-xl gap-y-3">
                     {/* title, prep_time, cook_time, description, picture */}
                     <div className="flex w-full h-full bg-yellow-100 rounded-xl p-5">
                         {/* title, prep_time, cook_time, description */}
@@ -45,6 +93,8 @@ const AddRecipe = () => {
                                     type="text"
                                     id="title"
                                     name="title"
+                                    autoComplete="on"
+                                    onChange={(e) => setTitle(e.target.value)}
                                     className="w-full border-1 rounded-md bg-white p-1"
                                 />
                             </label>
@@ -61,6 +111,8 @@ const AddRecipe = () => {
                                             type="number"
                                             id="prep_time"
                                             name="prep_time"
+                                            autoComplete="on"
+                                            onChange={(e) => setPrepTime(parseInt(e.target.value))}
                                             className="w-1/4 border-1 rounded-md bg-white p-1"
                                         /> &nbsp; mins
                                     </div>
@@ -74,8 +126,10 @@ const AddRecipe = () => {
                                     <div className="flex justify-start items-center">
                                         <input
                                             type="number"
-                                            id="prep_time"
-                                            name="prep_time"
+                                            id="cook_time"
+                                            name="cook_time"
+                                            autoComplete="on"
+                                            onChange={(e) => setCookTime(parseInt(e.target.value))}
                                             className="w-1/4 border-1 rounded-md bg-white p-1"
                                         /> &nbsp; mins
                                     </div>
@@ -91,19 +145,22 @@ const AddRecipe = () => {
                                 <textarea
                                     id="description"
                                     name="description"
+                                    autoComplete="on"
+                                    onChange={(e) => setDescription(e.target.value)}
                                     className="w-full h-48 border-1 rounded-md bg-white p-1 resize-none"
                                 />
                             </label>
                         </div>
 
                         {/* picture */}
-                        <div className="flex flex-col items-center w-1/2 pl-5">
+                        <div className="flex flex-col items-center w-1/2 h-full pl-5">
                             <label
-                                className="flex flex-col w-full items-start gap-y-3"
+                                className="flex flex-col w-full h-full items-start"
                                 htmlFor="image"
                             >
                                 <strong>Image</strong>
-                                <div className="relative flex justify-center w-full max-w-full h-80 bg-black overflow-hidden">
+                                <div
+                                    className="relative flex justify-center w-full max-w-full h-full max-h-full bg-black overflow-hidden mb-5">
                                     <img
                                         className="object-cover"
                                         src="../../../public/assets/placeholderPic.png"
@@ -111,7 +168,7 @@ const AddRecipe = () => {
                                         alt=""
                                     />
                                 </div>
-                                <div className="flex w-full justify-start items-center gap-1">
+                                <div className="flex w-full h-1/6 justify-start items-center gap-1">
                                     <button
                                         type="button"
                                         className="border bg-blue-400 w-3/12 text-white h-full p-1 rounded-md"
@@ -132,7 +189,7 @@ const AddRecipe = () => {
                                         id="picture"
                                         ref={picNameRef}
                                         name="picture"
-                                        className="w-7/12 border-1 rounded-md bg-white p-1"
+                                        className="w-7/12 h-full border-1 rounded-md bg-white p-1"
                                         readOnly
                                     />
                                     <button
@@ -140,11 +197,39 @@ const AddRecipe = () => {
                                         className="border bg-red-400 w-3/12 text-white h-full p-1 rounded-md"
                                         onClick={handleFileRemove}
                                     >
-                                        <FontAwesomeIcon icon={faTrash} />
+                                        <FontAwesomeIcon icon={faTrash}/>
                                     </button>
                                 </div>
                             </label>
                         </div>
+                    </div>
+                    <AddIngredients
+                        ingredients={ingredients}
+                        setIngredients={setIngredients}
+                        ingredientCount={ingredientCount}
+                        setIngredientCount={setIngredientCount}
+                    />
+                    <AddSteps
+                        steps={steps}
+                        setSteps={setSteps}
+                        stepCount={stepCount}
+                        setStepCount={setStepCount}
+                    />
+                    <div className="relative flex justify-end w-full bg-yellow-100 rounded-xl px-10 py-2 gap-5 mb-10">
+                        <button
+                            type="button"
+                            className="w-1/6 text-black h-15 p-1 rounded-md text-lg hover:underline"
+                            // onClick={handleCreateRecipe}
+                        >
+                            &lt; Back
+                        </button>
+                        <button
+                            type="submit"
+                            className="bg-green-400 hover:bg-green-600 w-1/6 text-white text-2xl h-full p-1 rounded-md"
+                            // onClick={handleCreateRecipe}
+                        >
+                            <b>Create</b>
+                        </button>
                     </div>
                 </form>
             </div>

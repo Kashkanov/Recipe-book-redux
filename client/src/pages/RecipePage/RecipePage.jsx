@@ -55,8 +55,8 @@ const RecipePage = () => {
                                 {/*Overview section*/}
                                 <Overview
                                     title={recipe.title}
-                                    prepTime={recipe.prep_time}
-                                    cookTime={recipe.cook_time}
+                                    prep_time={recipe.prep_time}
+                                    cook_time={recipe.cook_time}
                                     description={recipe.description}
                                     uploader={recipe.uploader}
                                 />

@@ -13,6 +13,7 @@ const recipeSchema = new mongoose.Schema({
     cook_time: { type: Number, required: true },
     description: { type: String, required: true },
     ingredients: [ingredientSchema],
+    steps: [String],
     datetime_added: { type: Date, default: Date.now },
     uploader: { type: String, required: true }
 });

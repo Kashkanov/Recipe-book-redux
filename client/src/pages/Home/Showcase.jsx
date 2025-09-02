@@ -85,7 +85,7 @@ const Showcase = () => {
                                                 key={recipe._id}
                                                 className="w-1/2 h-1/2 p-3"
                                             >
-                                                <Link to={`/recipe/${recipe._id}`}>
+                                                <Link to={`/Recipes/${recipe._id}`}>
                                                     <motion.div
                                                         className="relative w-full h-full bg-gray-700 rounded-xl shadow-lg overflow-hidden cursor-pointer"
                                                         initial={{scale: 1}}
@@ -137,7 +137,7 @@ const Showcase = () => {
                                         )
                                     })
                                 }
-                                <div className="absolute bottom-0 right-0 w-1/2 h-1/2 p-3">
+                                <Link to="/recipes" className="absolute bottom-0 right-0 w-1/2 h-1/2 p-3">
                                     <motion.div
                                         className="flex flex-col justify-center items-center w-full h-full  rounded-xl shadow-lg cursor-pointer"
                                         initial={{backgroundColor: "#464646"}}
@@ -149,7 +149,7 @@ const Showcase = () => {
                                     >
                                         <h2 className="text-lg">See more recipes</h2>
                                     </motion.div>
-                                </div>
+                                </Link>
                             </div>
                         </div>
                     </div>

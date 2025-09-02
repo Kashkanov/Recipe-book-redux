@@ -2,6 +2,7 @@ const express = require("express");
 const Recipe = require("../models/Recipe");
 
 const router = express.Router();
+const client_url = "http://localhost:5173/";
 
 // Get all recipes
 router.get("/", async (req, res) => {
@@ -49,6 +50,17 @@ router.get("/:id", async (req, res) => {
     try{
         const recipe = await Recipe.findById(req.params.id);
         res.json(recipe);
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+});
+
+// Create one recipe
+router.post("/", async (req, res) => {
+    try{
+        console.log(req.body);
+        const newRecipe = await Recipe.create(req.body);
+        res.json(newRecipe);
     } catch (err) {
         res.status(500).json({message: err.message});
     }
