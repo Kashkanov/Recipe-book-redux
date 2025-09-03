@@ -53,7 +53,7 @@ const AddRecipe = () => {
 
             const data = await response.json();
             picPath = data.url;
-            console.log(data);
+            console.log(picPath);
         }
         postRecipe(picPath);
     }
@@ -63,7 +63,7 @@ const AddRecipe = () => {
         const response = await fetch(api_url + "recipes/", {
             method: "POST",
             headers: {
-                "Content-Type": "multipart/form-data",
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({
                 title: title,

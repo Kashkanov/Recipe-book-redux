@@ -49,7 +49,7 @@ router.get("/latest/", async (req, res) => {
 // Get three latest recipes
 router.get("/threeLatest/", async (req, res) => {
     try{
-        const recipes = await Recipe.find().sort({datetime_added: -1}).limit(3);
+        const recipes = await Recipe.find().sort({datetime_added: -1}).skip(1).limit(3);
         res.json(recipes);
     } catch (err) {
         res.status(500).json({message: err.message});

@@ -4,7 +4,6 @@ import {useSearchParams} from "react-router";
 import Pagination from "../../Components/Recipes/Pagination.jsx";
 
 const Recipes = () => {
-    /* TODO: pagination */
 
     const api_url = "http://localhost:5050/";
 

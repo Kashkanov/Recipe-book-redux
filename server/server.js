@@ -1,6 +1,7 @@
 const express = require("express")
 const cors = require("cors")
 const productController = require("./controllers/recipeController")
+const authController = require("./controllers/authController")
 const db = require("./db/db.js")
 const multer = require("multer")
 
@@ -12,7 +13,18 @@ db()
 app.use(express.static("public"));
 
 app.use(cors());
+
+app.use((req, res, next)=>{
+    res.header("Access-Control-Allow-Origin", process.env.FRONTEND_URL);
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.header("Access-Control-Allow-Credentials", "true");
+
+    next();
+})
+
 app.use(express.json());
+app.use("/api", authController);
 app.use("/recipes", productController);
 
 // start the Express server

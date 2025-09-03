@@ -24,7 +24,7 @@ const Ingredients = ({ingredients}) => {
             initial={{opacity: 0, y: 100}}
             animate={{opacity: 1, y: 0}}
             transition={{delay: 0.5, duration: 0.5}}
-            className="flex-col text-start bg-yellow-100 rounded-lg text-black p-5 "
+            className="flex-col text-start bg-yellow-100 rounded-lg text-black p-5 w-full"
         >
             <div className="flex justify-between">
                 <h1 className="text-5xl font-bold pb-5">Ingredients</h1>
@@ -53,7 +53,7 @@ const Ingredients = ({ingredients}) => {
             </div>
             {ingredients &&
                 (
-                    <div className="w-1/2">
+                    <div className="w-full">
                         {ingredients.map((ingredient, index) => {
                             const isChecked = checkedItems.includes(index);
                             return (
