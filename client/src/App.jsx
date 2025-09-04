@@ -5,15 +5,22 @@ import NavBar from "./Components/NavBar.jsx";
 import Recipes from "./pages/Recipes/Recipes.jsx";
 import RecipePage from "./pages/RecipePage/RecipePage.jsx";
 import AddRecipe from "./pages/Home/AddRecipe.jsx";
-import {useState} from "react";
+import {useEffect} from "react";
 import Login from "./pages/auth/Login.jsx";
+import Register from "./pages/auth/Register.jsx";
+import {useSelector} from "react-redux";
 
 function App() {
-    const [user, setUser] = useState({auth: false, name: ''});
+    //const [user, setUser] = useState({auth: false, name: ''});
+    const activeUser = useSelector(state => state.activeUser);
+
+    useEffect(() => {
+        console.log("user: ",activeUser);
+    }, []);
 
     return (
         <BrowserRouter>
-            {user.auth ?
+            {activeUser.auth ?
                 <>
                     <NavBar/>
                     <Routes>
@@ -24,7 +31,10 @@ function App() {
                     </Routes>
                 </>
                 :
-                <Login setUser={setUser}/>
+                <Routes>
+                    <Route path="/" element={<Login/>} />
+                    <Route path="/register" element={<Register/>} />
+                </Routes>
             }
         </BrowserRouter>
     )

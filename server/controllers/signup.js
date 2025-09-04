@@ -5,10 +5,9 @@ const bcrypt = require('bcrypt');
 
 const createUser = async (req, res) => {
     try {
-        if (!(req.body.firstname && req.body.lastname && req.body.username && req.body.email && req.body.password)) {
+        if (!(req.body.username && req.body.email && req.body.password)) {
             res.status(400).send("All fields required");
         }
-
 
         const oldUser = await User.findOne({email: req.body.email});
 

@@ -1,8 +1,12 @@
-const Login = ({setUser}) => {
+import {useDispatch} from "react-redux";
+import {login} from "../../slices/activeUserSlice.js";
+
+const Login = () => {
 
     const api_url = "http://localhost:5050/";
+    const dispatch = useDispatch();
 
-    const login = (e) => {
+    const handleLogin = (e) => {
         e.preventDefault();
         const username = e.target.username.value;
         const password = e.target.password.value;
@@ -18,7 +22,8 @@ const Login = ({setUser}) => {
             .then((res) => res.json())
             .then((data) => {
                 localStorage.setItem("token", data.token);
-                setUser({auth: true, name: username});
+                //setUser({auth: true, name: username});
+                dispatch(login(username));
             })
             .catch((err) => {
                 console.log(err);
@@ -36,7 +41,7 @@ const Login = ({setUser}) => {
             <div className="relative flex w-full justify-end">
                 <div className="w-1/2 flex justify-start p-5">
                     <div className="flex flex-col justify-center items-center w-1/2 h-100 bg-[#3a5a40] rounded-xl">
-                        <form onSubmit={login} className="w-full">
+                        <form onSubmit={handleLogin} className="w-full">
                             <h2 className="mb-5 text-4xl"><strong>Login</strong></h2>
                             <label
                                 htmlFor="username"
@@ -46,7 +51,7 @@ const Login = ({setUser}) => {
                                 <input
                                     type="text"
                                     name="username"
-                                    className="bg-white w-full p-1 rounded-md text-black"
+                                    className="bg-white w-full p-1 rounded-md text-lg text-black"
                                     placeholder="Username"
                                 />
                             </label>
@@ -60,14 +65,16 @@ const Login = ({setUser}) => {
                                     type="password"
                                     name="password"
                                     className="bg-white w-full p-1 rounded-md text-black"
+                                    placeholder="Password"
                                 />
                             </label>
                             <button
                                 type="submit"
-                                className="w-25 text-white h-10 p-1 rounded-md text-lg bg-[#588157] hover:underline"
+                                className="w-25 text-white h-10 p-1 rounded-md text-lg bg-[#588157] hover:underline mb-5"
                             >
                                 Login
                             </button>
+                            <h3><a href="/register" className="text-white hover:underline">Create an Account</a></h3>
                         </form>
 
                     </div>

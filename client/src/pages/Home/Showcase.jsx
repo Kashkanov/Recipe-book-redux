@@ -1,13 +1,14 @@
 import {useEffect, useState} from "react";
 import {motion} from "motion/react";
 import {Link} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 const Showcase = () => {
     const api_url = "http://localhost:5050/";
 
     const [sampRecipes, setSampRecipes] = useState([]);
     const [newestRecipe, setNewestRecipe] = useState({});
-
+    const activeUser = useSelector(state => state.activeUser);
 
     async function getThreeLatestRecipes() {
         const response = await fetch(api_url + "recipes/threeLatest/");
@@ -26,15 +27,18 @@ const Showcase = () => {
         getLatestRecipe()
     }, []);
 
+    // TODO: remove unnecessary horizontal scroll
+
     return (
-        <>
+        <div className="relative flex flex-col items-center w-full max-w-full h-screen mt-15 overflow-x-hidden">
+            <h1 className="text-5xl text-[#344e41] font-bold py-5">Welcome {activeUser.name}</h1>
             {sampRecipes.length > 0 &&
                 (
-                    <div className="relative w-5/6 h-5/6 flex">
+                    <div className="w-5/6 h-3/4 flex overflow-x-hidden">
                         <div className="w-1/2 h-full p-3">
                             <Link to={`/Recipes/${newestRecipe._id}`}>
                                 <motion.div
-                                    className="relative w-full h-full bg-gray-700 rounded-xl shadow-lg overflow-hidden cursor-pointer"
+                                    className="relative w-full max-w-full h-full bg-gray-700 rounded-xl shadow-lg overflow-hidden cursor-pointer"
                                     initial={{scale: 1}}
                                     whileHover="hover"
                                 >
@@ -155,7 +159,7 @@ const Showcase = () => {
                     </div>
                 )
             }
-        </>
+        </div>
     )
 }
 
