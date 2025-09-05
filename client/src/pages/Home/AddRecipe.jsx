@@ -4,12 +4,12 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import AddIngredients from "../../Components/AddRecipe/AddIngredients.jsx";
 import AddSteps from "../../Components/AddRecipe/AddSteps.jsx";
 import {useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 const AddRecipe = () => {
 
     const navigate = useNavigate();
     const api_url = "http://localhost:5050/";
-    const [pic, setPic] = useState(null);
     const [title, setTitle] = useState("");
     const [prepTime, setPrepTime] = useState(0);
     const [cookTime, setCookTime] = useState(0);
@@ -22,6 +22,8 @@ const AddRecipe = () => {
     const [ingredientCount, setIngredientCount] = useState(0);
     const [steps, setSteps] = useState([]);
     const [stepCount, setStepCount] = useState(0);
+
+    const activeUser = useSelector(state => state.activeUser);
 
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
@@ -58,7 +60,6 @@ const AddRecipe = () => {
         postRecipe(picPath);
     }
 
-    // TODO: clean this up and remove unused variables related to picture
     async function postRecipe(picPath) {
         const response = await fetch(api_url + "recipes/", {
             method: "POST",
@@ -73,7 +74,7 @@ const AddRecipe = () => {
                 picture: picPath,
                 ingredients: ingredients,
                 steps: steps,
-                uploader: "admin",
+                uploader: activeUser._id,
             }),
 
         });

@@ -10,6 +10,10 @@ const Navbar = () => {
         {
             name: "Explore",
             link: "/Recipes?page=1"
+        },
+        {
+            name: "Create",
+            link: "/Recipes/add"
         }
     ];
 

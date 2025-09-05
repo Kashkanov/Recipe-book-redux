@@ -4,7 +4,6 @@ import {Link} from "react-router-dom";
 
 const RecipeCard = ({recipe}) => {
 
-    /* TODO: Fix spamming flip animation */
     return (
         <motion.div
             key={recipe._id}
