@@ -4,6 +4,7 @@ const productController = require("./controllers/recipeController")
 const authController = require("./controllers/authController")
 const db = require("./db/db.js")
 const multer = require("multer")
+const cookieParser = require("cookie-parser");
 
 const PORT = process.env.PORT || 5050;
 const app = express();
@@ -12,7 +13,10 @@ db()
 
 app.use(express.static("public"));
 
-app.use(cors());
+// app.use(cors({
+//     origin: process.env.FRONTEND_URL,
+//     credentials: true
+// }));
 
 app.use((req, res, next)=>{
     res.header("Access-Control-Allow-Origin", process.env.FRONTEND_URL);
@@ -23,6 +27,7 @@ app.use((req, res, next)=>{
     next();
 })
 
+app.use(cookieParser());
 app.use(express.json());
 app.use("/api", authController);
 app.use("/recipes", productController);

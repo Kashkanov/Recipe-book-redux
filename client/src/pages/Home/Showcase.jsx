@@ -1,14 +1,14 @@
 import {useEffect, useState} from "react";
 import {motion} from "motion/react";
 import {Link} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useAuth} from "../../Contexts/AuthContext.jsx";
 
 const Showcase = () => {
     const api_url = "http://localhost:5050/";
 
     const [sampRecipes, setSampRecipes] = useState([]);
     const [newestRecipe, setNewestRecipe] = useState({});
-    const activeUser = useSelector(state => state.activeUser);
+    const user = useAuth();
 
     async function getThreeLatestRecipes() {
         const response = await fetch(api_url + "recipes/threeLatest/");
@@ -31,7 +31,7 @@ const Showcase = () => {
 
     return (
         <div className="relative flex flex-col items-center w-full max-w-full h-screen mt-15 overflow-x-hidden">
-            <h1 className="text-5xl text-[#344e41] font-bold py-5">Welcome {activeUser.name}</h1>
+            <h1 className="text-5xl text-[#344e41] font-bold py-5">Welcome {user.username}</h1>
             {sampRecipes.length > 0 &&
                 (
                     <div className="w-5/6 h-3/4 flex overflow-x-hidden">

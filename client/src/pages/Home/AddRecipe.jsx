@@ -4,7 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import AddIngredients from "../../Components/AddRecipe/AddIngredients.jsx";
 import AddSteps from "../../Components/AddRecipe/AddSteps.jsx";
 import {useNavigate} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useAuth} from "../../Contexts/AuthContext.jsx";
 
 const AddRecipe = () => {
 
@@ -22,8 +22,7 @@ const AddRecipe = () => {
     const [ingredientCount, setIngredientCount] = useState(0);
     const [steps, setSteps] = useState([]);
     const [stepCount, setStepCount] = useState(0);
-
-    const activeUser = useSelector(state => state.activeUser);
+    const { user } = useAuth();
 
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
@@ -74,7 +73,7 @@ const AddRecipe = () => {
                 picture: picPath,
                 ingredients: ingredients,
                 steps: steps,
-                uploader: activeUser._id,
+                uploader: user._id,
             }),
 
         });

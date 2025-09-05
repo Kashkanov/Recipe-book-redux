@@ -8,34 +8,29 @@ import AddRecipe from "./pages/Home/AddRecipe.jsx";
 import {useEffect} from "react";
 import Login from "./pages/auth/Login.jsx";
 import Register from "./pages/auth/Register.jsx";
-import {useSelector} from "react-redux";
+import {useAuth} from "./Contexts/AuthContext.jsx";
+import AuthWrapper from "./Wrappers/AuthWrapper.jsx";
 
 function App() {
-    //const [user, setUser] = useState({auth: false, name: ''});
-    const activeUser = useSelector(state => state.activeUser);
+    const {isAuth} = useAuth();
 
     useEffect(() => {
-        console.log("user: ",activeUser);
-    }, []);
+        console.log("isAuthMain: ", isAuth);        //<===
+    }, [isAuth]);
 
     return (
         <BrowserRouter>
-            {activeUser.auth ?
-                <>
-                    <NavBar/>
-                    <Routes>
-                        <Route path="/" element={<Homepage/>}/>
-                        <Route path="/Recipes" element={<Recipes/>}/>
-                        <Route path="/Recipes/:id" element={<RecipePage/>}/>
-                        <Route path="/Recipes/add" element={<AddRecipe/>}/>
-                    </Routes>
-                </>
-                :
-                <Routes>
-                    <Route path="/" element={<Login/>} />
-                    <Route path="/register" element={<Register/>} />
-                </Routes>
-            }
+            <NavBar/>
+            <Routes>
+                <Route path="/" element={<AuthWrapper><Homepage/></AuthWrapper>}/>
+                <Route path="/Recipes" element={<AuthWrapper><Recipes/></AuthWrapper>}/>
+                <Route path="/Recipes/:id" element={<AuthWrapper><RecipePage/></AuthWrapper>}/>
+                <Route path="/Recipes/add" element={<AuthWrapper><AddRecipe/></AuthWrapper>}/>
+
+                <Route path="/login" element={<Login/>}/>
+                <Route path="/register" element={<Register/>}/>
+            </Routes>
+
         </BrowserRouter>
     )
 }

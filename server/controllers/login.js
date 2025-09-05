@@ -7,11 +7,11 @@ const { createSecretToken } = require("../tokenGeneration/generateToken");
 env.config();
 
 const login = async(req, res) => {
-    const { email, password } = req.body;
-    if(!(email && password)) {
+    const { username, password } = req.body;
+    if(!(username && password)) {
         return res.status(404).json({ message: "Invalid credentials" });
     }
-    const user = await User.findOne( {email} );
+    const user = await User.findOne( {username} );
     if(!(user && (await bcrypt.compare(password, user.password)))){
         return res.status(404).json({ message: "Invalid credentials" });
     }
@@ -23,12 +23,12 @@ const login = async(req, res) => {
         //domain: process.env.FRONTEND_URL,
         path: "/",
         expires: new Date(Date.now() + 86400000),
-        secure: true,
+        secure: false,
         httpOnly: true,
-        sameSite: "None",
+        sameSite: "strict",
     })
 
-    res.json({ token })
+    res.json({ id: user._id, username: user.username });
 };
 
 module.exports = login;

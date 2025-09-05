@@ -1,33 +1,18 @@
-import {useDispatch} from "react-redux";
-import {login} from "../../slices/activeUserSlice.js";
-
+import {useAuth} from "../../Contexts/AuthContext.jsx";
+import {useNavigate, useSearchParams} from "react-router-dom";
 const Login = () => {
 
-    const api_url = "http://localhost:5050/";
-    const dispatch = useDispatch();
+    const {login} = useAuth();
+    const navigate = useNavigate();
+    const [ searchParams] = useSearchParams();
+
 
     const handleLogin = (e) => {
         e.preventDefault();
         const username = e.target.username.value;
         const password = e.target.password.value;
-        const data = {username, password};
-
-        fetch(api_url + "api/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                localStorage.setItem("token", data.token);
-                //setUser({auth: true, name: username});
-                dispatch(login(username));
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        login(username, password);
+        navigate(searchParams.get("returnUrl") || "/", {replace: true});
     }
 
 
