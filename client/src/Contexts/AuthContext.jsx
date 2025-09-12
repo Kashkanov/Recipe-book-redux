@@ -33,8 +33,8 @@ export const AuthProvider = ({children}) => {
     }
 
 
-    const login = (username, password) => {
-        fetch(backend_url + "api/login", {
+    const login = async (username, password) => {
+        const response = await fetch(backend_url + "api/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -42,16 +42,23 @@ export const AuthProvider = ({children}) => {
             credentials: "include",
             body: JSON.stringify({username, password}),
         })
-            .then((res) => res.json())
-            .then((data) => {
-                setUser(data);
-                setLoading(false);
 
-                console.log("user logged in: ", data);      //<===
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        if(response.ok) {
+            const data = await response.json();
+            setUser(data);
+            setLoading(false);
+            console.log("user logged in: ", data);      //<===
+        }
+            // .then((res) => res.json())
+            // .then((data) => {
+            //     setUser(data);
+            //     setLoading(false);
+            //
+            //     console.log("user logged in: ", data);      //<===
+            // })
+            // .catch((err) => {
+            //     console.log(err);
+            // });
     }
 
     const logout = () => {

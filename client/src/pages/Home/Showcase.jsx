@@ -8,7 +8,7 @@ const Showcase = () => {
 
     const [sampRecipes, setSampRecipes] = useState([]);
     const [newestRecipe, setNewestRecipe] = useState({});
-    const user = useAuth();
+    const {user} = useAuth();
 
     async function ThreeLatestRecipes() {
         const response = await getThreeLatestRecipes();
