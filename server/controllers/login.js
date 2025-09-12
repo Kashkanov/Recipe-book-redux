@@ -18,7 +18,7 @@ const login = async(req, res) => {
 
     console.log("frontend_url: ", process.env.FRONTEND_URL);
 
-    const token = createSecretToken(user._id);
+    const token = createSecretToken(user);
     res.cookie("token", token, {
         //domain: process.env.FRONTEND_URL,
         path: "/",

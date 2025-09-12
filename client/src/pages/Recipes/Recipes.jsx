@@ -2,21 +2,19 @@ import RecipeTable from "../../Components/Recipes/RecipeTable.jsx";
 import {useEffect, useState} from "react";
 import {useSearchParams} from "react-router";
 import Pagination from "../../Components/Recipes/Pagination.jsx";
+import { getAllRecipesAndCount } from "../../services/recipeService.js";
 
 const Recipes = () => {
-
-    const api_url = "http://localhost:5050/";
 
     const [searchParams, setSearchParams] = useSearchParams();
     const [recipes, setRecipes] = useState([]);
     const [total, setTotal] = useState(0);
     const page = parseInt(searchParams.get("page")) || 1;
 
-    async function getAllRecipesAndCount() {
-        const response = await fetch(api_url + "recipes?page=" + page);
-        const data = await response.json();
-        setRecipes(data.recipes);
-        setTotal(data.total);
+    async function AllRecipesAndCount() {
+        const response = await getAllRecipesAndCount(page);
+        setRecipes(response.recipes);
+        setTotal(response.total);
     }
 
     function handlePageChange(newPage) {
@@ -24,7 +22,7 @@ const Recipes = () => {
     }
 
     useEffect(() => {
-        getAllRecipesAndCount();
+        AllRecipesAndCount();
     }, [page]);
 
     return (

@@ -2,7 +2,7 @@ import {NavLink} from "react-router";
 import {useAuth} from "../Contexts/AuthContext.jsx";
 
 const Navbar = () => {
-    const {logout} = useAuth();
+    const {user, logout} = useAuth();
 
     const links = [
         {
@@ -40,12 +40,14 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="flex justify-end w-1/2">
-                <button
-                    onClick={logout}
-                    className="font-bold"
-                >
-                    Logout
-                </button>
+                {user &&
+                    <button
+                        onClick={logout}
+                        className="font-bold"
+                    >
+                        Logout
+                    </button>
+                }
             </div>
         </nav>
     )

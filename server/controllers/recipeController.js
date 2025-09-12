@@ -4,6 +4,8 @@ const Recipe = require("../models/Recipe");
 
 const router = express.Router();
 const api_url = "http://localhost:5050/";
+const authenticateToken = require("../middleware/authenticateToken");
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "./public/uploads/");
@@ -16,7 +18,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage: storage});
 
 // Get all recipes
-router.get("/", async (req, res) => {
+router.get("/", authenticateToken, async (req, res) => {
     try{
         const { page=1 } = req.query;
         const currPage = parseInt(page);
@@ -37,7 +39,7 @@ router.get("/", async (req, res) => {
 });
 
 // Get latest recipe
-router.get("/latest/", async (req, res) => {
+router.get("/latest/", authenticateToken,async (req, res) => {
     try{
         const recipe = await Recipe.findOne().sort({datetime_added: -1});
         res.json(recipe);
@@ -47,7 +49,7 @@ router.get("/latest/", async (req, res) => {
 });
 
 // Get three latest recipes
-router.get("/threeLatest/", async (req, res) => {
+router.get("/threeLatest/", authenticateToken, async (req, res) => {
     try{
         const recipes = await Recipe.find().sort({datetime_added: -1}).skip(1).limit(3);
         res.json(recipes);
@@ -57,7 +59,7 @@ router.get("/threeLatest/", async (req, res) => {
 });
 
 // Get one recipe
-router.get("/:id", async (req, res) => {
+router.get("/:id", authenticateToken, async (req, res) => {
     try{
         const recipe = await Recipe.findById(req.params.id);
         res.json(recipe);
@@ -67,17 +69,18 @@ router.get("/:id", async (req, res) => {
 });
 
 // Create one recipe
-router.post("/", async (req, res) => {
+router.post("/", authenticateToken, async (req, res) => {
     try{
         console.log(req.body);
         const newRecipe = await Recipe.create(req.body);
-        res.json(newRecipe);
+        res.status(200).json({message: "Recipe created", recipe: newRecipe});
     } catch (err) {
+        console.log(err);
         res.status(500).json({message: err.message});
     }
 });
 
-router.post("/uploadImage", upload.single("picture"), async (req, res) => {
+router.post("/uploadImage", authenticateToken, upload.single("picture"), async (req, res) => {
     try{
         res.json({url: api_url + "uploads/" + req.file.filename});
     } catch (err) {

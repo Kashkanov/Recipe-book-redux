@@ -3,7 +3,7 @@ import {faCirclePlus} from "@fortawesome/free-solid-svg-icons/faCirclePlus";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 
-const AddIngredients = ({ingredients, setIngredients, ingredientCount, setIngredientCount}) => {
+const AddIngredients = ({ingredients, setIngredients, ingredientCount, setIngredientCount, isIngredientsValid}) => {
     const newIngredientRef = useRef(null);
 
     const handleAddIngredient = (qty, unit, name) => {
@@ -34,7 +34,7 @@ const AddIngredients = ({ingredients, setIngredients, ingredientCount, setIngred
             <div className="flex justify-start m-5">
                 <h2 className="text-4xl"><b>Add Ingredients</b></h2>
             </div>
-            <div className="flex flex-col w-full px-5">
+            <div className="relative flex flex-col w-full px-5">
                 {/* Existing ingredients */}
                 {ingredients.map((ingredient, index) => (
                     <div key={index}
@@ -106,10 +106,13 @@ const AddIngredients = ({ingredients, setIngredients, ingredientCount, setIngred
                                 );
                             }}
                         >
-                            Add Ingredient <FontAwesomeIcon icon={faCirclePlus} />
+                            Add Ingredient <FontAwesomeIcon icon={faCirclePlus}/>
                         </button>
                     </div>
                 </div>
+                {!isIngredientsValid &&
+                    <span className="absolute text-red-600 text-sm bottom-0">Add at least one ingredient</span>
+                }
             </div>
         </div>
     )
@@ -120,5 +123,6 @@ AddIngredients.propTypes = {
     ingredients: PropTypes.array,
     setIngredients: PropTypes.func,
     ingredientCount: PropTypes.number,
-    setIngredientCount: PropTypes.func
+    setIngredientCount: PropTypes.func,
+    isIngredientsValid: PropTypes.bool
 }

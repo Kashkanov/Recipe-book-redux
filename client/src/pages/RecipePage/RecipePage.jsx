@@ -4,24 +4,19 @@ import {motion} from "framer-motion";
 import Overview from "../../Components/RecipePage/Overview.jsx";
 import Ingredients from "../../Components/RecipePage/Ingredients.jsx";
 import Steps from "../../Components/RecipePage/Steps.jsx";
+import {getRecipeById} from "../../services/recipeService.js";
 
 const RecipePage = () => {
 
-    const api_url = "http://localhost:5050/";
     const [recipe, setRecipe] = useState({});
     const params = useParams();
     const [showFullPic, setShowFullPic] = useState(false);
 
     async function getRecipe() {
         const id = params.id?.toString() || undefined;
-        const response = await fetch(api_url + "recipes/" + id);
-        if (response.ok) {
-            const data = await response.json();
-            console.log(data);
-            setRecipe(data);
-        }
+        const response = await getRecipeById(id);
+        setRecipe(response);
     }
-
 
     useEffect(() => {
         getRecipe();

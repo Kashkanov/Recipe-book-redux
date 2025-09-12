@@ -4,7 +4,7 @@ import {faCirclePlus} from "@fortawesome/free-solid-svg-icons/faCirclePlus";
 import PropTypes from "prop-types";
 
 
-const AddSteps = ({steps, setSteps, stepCount, setStepCount}) => {
+const AddSteps = ({steps, setSteps, stepCount, setStepCount, isInstructionsValid}) => {
 
     const newStepRef = useRef(null);
 
@@ -32,7 +32,7 @@ const AddSteps = ({steps, setSteps, stepCount, setStepCount}) => {
             <div className="flex justify-start m-5">
                 <h2 className="text-4xl"><b>Add Steps</b></h2>
             </div>
-            <div className="flex flex-col w-full px-5 list-decimal">
+            <div className="relative flex flex-col w-full px-5 list-decimal">
                 {/* Existing steps */}
                 {steps.map((step, index) => (
                     <div
@@ -84,6 +84,9 @@ const AddSteps = ({steps, setSteps, stepCount, setStepCount}) => {
                         </button>
                     </div>
                 </div>
+                {!isInstructionsValid &&
+                    <span className="absolute text-red-600 bottom-[-0.5rem]">Please add at least one step</span>
+                }
             </div>
         </div>
     )
@@ -94,5 +97,6 @@ AddSteps.propTypes = {
     steps: PropTypes.array,
     setSteps: PropTypes.func,
     stepCount: PropTypes.number,
-    setStepCount: PropTypes.func
+    setStepCount: PropTypes.func,
+    isInstructionsValid: PropTypes.bool
 }

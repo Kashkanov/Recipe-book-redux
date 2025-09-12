@@ -1,20 +1,18 @@
 import {useAuth} from "../../Contexts/AuthContext.jsx";
-import {useNavigate, useSearchParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 const Login = () => {
 
     const {login} = useAuth();
     const navigate = useNavigate();
-    const [ searchParams] = useSearchParams();
 
-
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
         const username = e.target.username.value;
         const password = e.target.password.value;
-        login(username, password);
-        navigate(searchParams.get("returnUrl") || "/", {replace: true});
+        await login(username, password);
+        console.log("reachable");     //<===
+        navigate("/");
     }
-
 
     return (
         <div className="relative flex flex-col justify-center items-center w-screen h-dvh overflow-x-hidden">

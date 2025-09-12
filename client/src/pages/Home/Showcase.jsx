@@ -2,29 +2,27 @@ import {useEffect, useState} from "react";
 import {motion} from "motion/react";
 import {Link} from "react-router-dom";
 import {useAuth} from "../../Contexts/AuthContext.jsx";
+import { getThreeLatestRecipes, getLatestRecipe } from "../../services/recipeService.js";
 
 const Showcase = () => {
-    const api_url = "http://localhost:5050/";
 
     const [sampRecipes, setSampRecipes] = useState([]);
     const [newestRecipe, setNewestRecipe] = useState({});
     const user = useAuth();
 
-    async function getThreeLatestRecipes() {
-        const response = await fetch(api_url + "recipes/threeLatest/");
-        const data = await response.json();
-        setSampRecipes(data);
+    async function ThreeLatestRecipes() {
+        const response = await getThreeLatestRecipes();
+        setSampRecipes(response);
     }
 
-    async function getLatestRecipe() {
-        const response = await fetch(api_url + "recipes/latest/");
-        const data = await response.json();
-        setNewestRecipe(data);
+    async function LatestRecipe() {
+        const response = await getLatestRecipe();
+        setNewestRecipe(response);
     }
 
     useEffect(() => {
-        getThreeLatestRecipes();
-        getLatestRecipe()
+        ThreeLatestRecipes();
+        LatestRecipe();
     }, []);
 
     // TODO: remove unnecessary horizontal scroll
